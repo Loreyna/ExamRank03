@@ -1,55 +1,54 @@
-
-
-
-
-
+#include <unistd.h>
 #include <stdio.h>
 #include <string.h>
-#include <unistd.h>
-#include <stdlib.h>
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 10
+#endif
 
-int	ft_strncmp(char *s, char *ss, int n)
+void	ft_filter(char *line, char *str)
 {
-	int x = 0;
-	while(x < n && s[x] == ss[x])
-		x++;
-	if(x == n)
-		return 1;
-	else
-		return 0;
-}
-
-
-int main(int ac, char **av)
-{
-	char *buff = malloc(1000000);
-	char *tmp = av[1];
-	char c;
-	int r = read(0, &c, 1);
-	int x = 0;
-	int len = strlen(av[1]);
-	(void)ac;
-
-	while(r > 0)
+	int	len = strlen(str);
+	int	i = 0;
+	while (line[i])
 	{
-		buff[x++] = c;
-		r = read(0, &c, 1);
-	}
-	buff[x] = '\0';
-	x = 0;
-	while(buff[x] != '\0')
-	{
-		if(ft_strncmp(&buff[x], tmp, len) == 1)
+		int	h = 0;
+		while (str[h] && line[i + h] == str[h])
+			h++;
+		if (h == len)
 		{
-			for(int y = 0; y < len; y++)
-				write(1, "*", 1);
-			x += len;
+			int	l = 0;
+			while (l < len)
+			{
+				write (1, "*", 1);
+				l++;
+			}
+			i += h;
 		}
 		else
 		{
-			write(1, &buff[x], 1);
-			x++;
+			write (1, &line[i], 1);
+			i++;
 		}
 	}
-	free(buff);
+}
+
+int	main(int argc, char **argv)
+{
+	char	line[999999];
+	int		ret = 1;
+	int		i = 0;
+	if (argc != 2 || !argv[1][0])
+		return (1);
+	while (ret > 0)
+	{
+		ret = read(0, &line[i], BUFFER_SIZE);
+		if (ret < 0)
+		{
+			perror("Error");
+			return (1);
+		}
+		i += ret;
+	}
+	ft_filter(line, argv[1]);
+	return (0);
 }
