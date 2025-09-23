@@ -35,7 +35,7 @@ size_t	ft_strlen(char *s)
 
 int	str_append_mem(char **s1, char *s2, size_t size2)
 {
-	size_t	size1 = ft_strlen(*s1);/**s1 ? ft_strlen(*s1) : 0;*/
+	size_t	size1 = ft_strlen(*s1);/* = *s1 ? ft_strlen(*s1) : 0;*/
 	char	*tmp = malloc(size2 + size1 + 1);
 	if (!tmp)
 		return (0);
@@ -55,17 +55,16 @@ int	str_append_str(char **s1, char *s2)
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	if (dest > src)
+	if (dest >/*<*/ src)
 		return (ft_memcpy(dest, src, n));
 	else if (dest == src)
 		return (dest);
-	size_t	i = ft_strlen((char *)src) - 1;
-	/*size_t i = n*/
+	size_t	i = ft_strlen((char *)src) - 1;/* = n*/
 	while (i >=/*>*/ 0)
 	{
 		/*i--;*/
 		((char *)dest)[i] = ((char *)src)[i];
-		i--;
+		i--;/*clear*/
 	}
 	return (dest);
 }
@@ -109,22 +108,3 @@ char	*get_next_line(int fd)
 	}*/
 	return (ret);
 }
-
-/*
-#include <stdio.h>
-#include <fcntl.h>
-
-int main(void)
-{
-	int fd = open("test.txt", O_RDONLY);
-	char *line;
-
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		printf("%s", line);
-		free(line);
-	}
-	close(fd);
-	return (0);
-}
-	*/
