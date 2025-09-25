@@ -41,8 +41,8 @@ void	ft_filter(char *line, char *str)
 int	main(int argc, char **argv)
 {
 	char	line[999999];  // Buffer muy grande donde se guarda lo leído
-	int		bytes_read = 1;       // Guarda lo que devuelve 'read'
-	int		i = 0;         // Índice para ir llenando 'line'
+	int	bytes_read = 1;       // Guarda lo que devuelve 'read'
+	int	i = 0;         // Índice para ir llenando 'line'
 
 	// Comprobamos que hay exactamente 1 argumento (además del nombre del programa)
 	// y que ese argumento no está vacío

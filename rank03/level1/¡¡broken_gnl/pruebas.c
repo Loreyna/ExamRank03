@@ -1,9 +1,22 @@
+#ifndef GNL
+# define GNL
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
+
+char	*get_next_line(int fd);
+
+#endif
+
+__________________________________________________
+
 #include "broken_gnl.h"
 
 char	*ft_strchr(char *s, int c)
 {
 	int	i = 0;
-	while (s[i] != c)/*(s[i] && s[i] != c)*/
+	while (s[i] != c)
 		i++;
 	if (s[i] == c)
 		return (s + i);
@@ -13,13 +26,8 @@ char	*ft_strchr(char *s, int c)
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	/*size_t i = 0;*/
-	
-	while (--n > 0)/*(i < n)*/
-	{
-		((char *)dest)[n - 1] = ((char *)src)[n - 1];/*((char *)dest)[i] = ((char *)src)[i];*/
-		/*i++;*/
-	}
+	while (--n > 0)
+		((char *)dest)[n - 1] = ((char *)src)[n - 1];
 	return (dest);
 }
 
@@ -36,12 +44,11 @@ size_t	ft_strlen(char *s)
 
 int	str_append_mem(char **s1, char *s2, size_t size2)
 {
-	size_t	size1 = ft_strlen(*s1);/* = *s1 ? ft_strlen(*s1) : 0;*/
+	size_t	size1 = ft_strlen(*s1);
 	char	*tmp = malloc(size2 + size1 + 1);
 	if (!tmp)
 		return (0);
-	/*if (*s1)*/
-	/*	*/ft_memcpy(tmp, *s1, size1);
+	ft_memcpy(tmp, *s1, size1);
 	ft_memcpy(tmp + size1, s2, size2);
 	tmp [size1 + size2] = 0;
 	free(*s1);
@@ -56,16 +63,15 @@ int	str_append_str(char **s1, char *s2)
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	if (dest >/*<*/ src)
+	if (dest > src)
 		return (ft_memcpy(dest, src, n));
 	else if (dest == src)
 		return (dest);
-	size_t	i = ft_strlen((char *)src) - 1;/* = n*/
-	while (i >=/*>*/ 0)
+	size_t	i = ft_strlen((char *)src) - 1;
+	while (i >= 0)
 	{
-		/*i--;*/
 		((char *)dest)[i] = ((char *)src)[i];
-		i--;/*clear*/
+		i--;
 	}
 	return (dest);
 }
@@ -80,32 +86,35 @@ char	*get_next_line(int fd)
 	{
 		if (!str_append_str(&ret, b))
 			return (NULL);
-		/*b[0] = '\0';*/
 		int	read_ret = read(fd, b, BUFFER_SIZE);
 		if (read_ret == -1)
 			return (NULL);
-		/*if (read_ret == 0)⚠️
-			break;*/
 		b[read_ret] = 0;
-		/*tmp = ft_strchr(b, '\n')*/
 	}
-	/*if (tmb)*/
+	if (!str_append_mem(&ret, b, tmp - b + 1))
 	{
-	/*	*/if (!str_append_mem(&ret, b, tmp - b + 1))
-		{
-			free(ret);
-			return (NULL);
-		}
-		/*ft_memmove(b, tmp + 1, ft_strlen(tmp + 1) + 1);*/⚠️
+		free(ret);
+		return (NULL);
 	}
-	/*else
-	{
-		b[0] = '\0';
-		if (!ret || !*ret)⚠️
-		{
-			free(ret);
-			return (NULL);
-		}
-	}*/
 	return (ret);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
